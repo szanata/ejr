@@ -1,0 +1,23 @@
+{
+  "name": "ejr",
+  "version": "0.0.1",
+  "description": "Easy JSON Render",
+  "main": "ejr.js",
+  "dependencies": {
+    
+  },
+  "engines": {
+    "node": "6.3.1",
+    "npm": "3.10.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:madeinstefano/ejr.git"
+  },
+  "contributors": [
+    {
+      "name": "Stéfano Zanata",
+      "email": "stefano.zanata@meltwater.com"
+    }
+  ]
+}
