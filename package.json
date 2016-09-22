@@ -3,9 +3,7 @@
   "version": "0.0.1",
   "description": "Easy JSON Render",
   "main": "ejr.js",
-  "dependencies": {
-    
-  },
+  "dependencies": {},
   "engines": {
     "node": "6.3.1",
     "npm": "3.10.6"
@@ -14,10 +12,19 @@
     "type": "git",
     "url": "git@github.com:madeinstefano/ejr.git"
   },
+  "keywords": [
+    "view engine",
+    "json",
+    "express.js"
+  ],
   "contributors": [
     {
       "name": "Stéfano Zanata",
       "email": "stefano.zanata@meltwater.com"
     }
-  ]
+  ],
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2"
+  }
 }
