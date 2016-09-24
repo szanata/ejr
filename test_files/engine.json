@@ -1,0 +1,5 @@
+{
+  "cylinders": engine.cylinders,
+  "displacement": engine.displacement,
+  "output": engine.output
+}

@@ -24,31 +24,68 @@ app.set('view engine', 'json');
 
 ```js
 app.get('someroute', (req, res) => {
-  var context = { myCar: { color: "red" } };
-  res.type( 'json' ).render( 'my_view_path', context ); // like the default render method with express
+  var context = { car: { color: "red" } };
+  res.type( 'json' ).render( 'views/car', context ); // like the default render method with express
 });
 ```
 
 ### 3. Setting the view
 ```js
-// my_view_file.json
+// car.json
 
 {
-  "color": myCar.color
+  "color": car.color
 }
 
 ```
 
 ### Output
 
-When doing `GET /someroute`, the response will be:
+When doing `GET /some-route`, the response will be:
 ```js
 {
   "color": "red"
 }
 ```
 
+### Including partial files:
+
+To include another files in the final render (like partials) use the `_include` function:
+```js
+// car.json
+
+{
+  "color": car.color
+  "engine": _include('./engine.json', { engine: car.engine } )
+}
+```
+
+```js
+// engine.json
+{
+  "cylinders": engine.cylinders,
+  "displacement": engine.displacement,
+  "output": engine.output  
+}
+```
+
+The output will be a combination of the two files
+```js
+{
+  "color": "red",
+  "engine": {
+    "cylinders": 6,
+    "displacement": 2,
+    "output": 288
+  }
+}
+```
+The function signature is `_include(file, context)`: The *file* is the partial path, and the *context* is any variables used inside the partial.
+
+**Important**: The included file path must be relative to the view where the `_include` fn was called;
+
 ### Notes
+
 
 - If you don't want to all .json files be interpreted by this engine, you can change the extension the anything, like *.ejr*, doing this:
 
@@ -93,4 +130,3 @@ will result in
 ```
 
 This is just a dump example, but anything is possible.
-
