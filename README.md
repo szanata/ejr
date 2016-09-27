@@ -32,16 +32,14 @@ app.get('someroute', (req, res) => {
 ### 3. Setting the view
 ```js
 // car.json
-
 {
   "color": car.color
 }
-
 ```
 
 ### Output
 
-When doing `GET /some-route`, the response will be:
+When requestiong the  `GET /some-route`, the response will be:
 ```js
 {
   "color": "red"
@@ -99,8 +97,8 @@ app.set('view engine', 'ejr');
 
 And than on views path, use *.ejr* files instead of *.json*.
 
-- This engine is very simple, the purpose is to simple render json files interpolating context variables, and this is done using the **vm** module from node.
-As any code is evalutated as js, you can add some logic in the output with lambdas, like this:
+- This engine is very simple, the purpose is to render **json** files interpolating context variables, and this is done using the **vm** module from node.
+As all code is evaluated as pure Javascript, you can add some logic in the output with lambdas, like this:
 
 ```js
 // myfile.json
@@ -129,4 +127,4 @@ will result in
 }
 ```
 
-This is just a dump example, but anything is possible.
+This is just a dumb example, but anything is possible.
