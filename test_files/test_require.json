@@ -1,0 +1,8 @@
+{
+  "path": (function () {
+    require('rootpath')();
+
+    var file = require('test_files/file_to_require');
+    return file.key;
+  })()
+}

@@ -22,5 +22,14 @@ describe('Rendering a json file', function () {
       done();
     });
   });
+  
+  it('Should render file with require code', function (done) {
+
+    ejr('./test_files/test_require.json', { }, function (err, render) {
+      var renderdJSON = JSON.parse(render);
+      renderdJSON.path.should.be.equals("value");
+      done();
+    });
+  });
 
 });

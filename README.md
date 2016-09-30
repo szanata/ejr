@@ -84,6 +84,7 @@ The function signature is `_include(file, context)`: The *file* is the partial p
 
 ### Notes
 
+- **0.0.3**: You can use `console`, `require` and `process` inside the view.
 
 - If you don't want to all .json files be interpreted by this engine, you can change the extension the anything, like *.ejr*, doing this:
 

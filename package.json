@@ -1,6 +1,6 @@
 {
   "name": "ejr",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Easy JSON Render",
   "main": "ejr.js",
   "dependencies": {},
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^3.0.2"
+    "mocha": "^3.0.2",
+    "rootpath": "latest"
   }
 }

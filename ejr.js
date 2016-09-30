@@ -39,7 +39,13 @@ function renderSync(filePath, options) {
   var ctx = options;
   
   bindInclude(ctx, filePath);
-  vm.runInNewContext(wrapped, ctx);
+  
+  ctx.require = require; // bind require
+  ctx.console = console; // bind console
+  ctx.process = process; // bind process
+  
+  vm.createContext(ctx);
+  vm.runInNewContext(wrapped, ctx, { displayErrors: true });
   
   return ctx.render;
 }
