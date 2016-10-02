@@ -1,7 +1,7 @@
 const fs = require('fs');
 const vm = require("vm");
 const path = require('path');
-
+const extend = require('util')._extend;
 /**
  * @param {string} file1 - some file path
  * @param {string} file2 - some other file path relative to first file's path
@@ -24,8 +24,18 @@ function bindInclude(ctx, filePath) {
   * @returns {Object} rendered partial json
   */
   ctx._include = function _include(file, options) {
-    return renderSync( getRelativePath( filePath, file ), options );
+    var mergedOptions = extend(ctx, options);
+    return renderSync( getRelativePath( filePath, file ), mergedOptions );
   }
+}
+
+/**
+ * Bind global function to context
+ */
+function bindGlobal(ctx) {
+  ctx.require = require; // bind require
+  ctx.console = console; // bind console
+  ctx.process = process; // bind process
 }
 
 /**
@@ -38,11 +48,8 @@ function renderSync(filePath, options) {
   var wrapped = `var render = ${content}`;
   var ctx = options;
   
+  bindGlobal(ctx);
   bindInclude(ctx, filePath);
-  
-  ctx.require = require; // bind require
-  ctx.console = console; // bind console
-  ctx.process = process; // bind process
   
   vm.createContext(ctx);
   vm.runInNewContext(wrapped, ctx, { displayErrors: true });

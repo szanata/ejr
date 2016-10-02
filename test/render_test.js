@@ -31,5 +31,14 @@ describe('Rendering a json file', function () {
       done();
     });
   });
+  
+  it('Should keep context on included subfile', function (done) {
+    ejr('./test_files/test_include.json', { variable: "value" }, function (err, render) {
+
+      var renderdJSON = JSON.parse(render);
+      renderdJSON.variable.should.be.equals("value");
+      done();
+    });
+  });
 
 });
