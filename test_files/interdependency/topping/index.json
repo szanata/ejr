@@ -1,0 +1,6 @@
+{
+  "topping": {
+    "flavor": topping.flavor,
+    "amount": topping.amount
+  }
+}

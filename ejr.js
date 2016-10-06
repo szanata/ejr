@@ -2,6 +2,8 @@ const fs = require('fs');
 const vm = require("vm");
 const path = require('path');
 const extend = require('util')._extend;
+
+var rootPath = null;
 /**
  * @param {string} file1 - some file path
  * @param {string} file2 - some other file path relative to first file's path
@@ -25,7 +27,7 @@ function bindInclude(ctx, filePath) {
   */
   ctx._include = function _include(file, options) {
     var mergedOptions = extend(ctx, options);
-    return renderSync( getRelativePath( filePath, file ), mergedOptions );
+    return renderSync( getRelativePath( rootPath, file ), mergedOptions );
   }
 }
 
@@ -64,6 +66,7 @@ function renderSync(filePath, options) {
  */
 module.exports = function render(filePath, options, callback) {
   try {
+    rootPath = filePath;
     var json = renderSync(filePath, options);
     callback( null, JSON.stringify(json) ); 
   } catch (e) {

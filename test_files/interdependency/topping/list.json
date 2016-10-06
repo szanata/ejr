@@ -1,0 +1,3 @@
+{
+  "toppings": toppings.map( topping => _include('./index.json', { topping }) )
+}

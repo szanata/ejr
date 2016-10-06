@@ -1,0 +1,3 @@
+{
+  "pies": pies.map( pie => _include('./index.json', { pie }) )
+}
