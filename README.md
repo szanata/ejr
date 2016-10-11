@@ -84,11 +84,13 @@ The function signature is `_include(file, context)`: The *file* is the partial p
 
 ### Notes
 
+- **0.0.7**: Fixed: Options and context from first file are bound to the context of any `_include`.
+
 - **0.0.6**: Fixed: relative path for `_include` inside `_include` from a outside folder.
 
 - **0.0.5**: Fixed: relative path for `_include` inside `_include`.
 
-- **0.0.4**: Options from first file are bound to the context of any `_include`. **Feature removed on v0.0.6**.
+- **0.0.4**: Options and context from first file are bound to the context of any `_include`. **Feature removed on v0.0.6**.
 
 - **0.0.3**: You can use `console`, `require` and `process` inside the view.
 

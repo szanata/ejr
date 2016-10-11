@@ -35,8 +35,8 @@ describe('Rendering a json file', function () {
   
   it('Should not keep options on included subfile', function (done) {
     ejr('./test_files/test_include.json', { variable: "value" }, function (err, render) {
-
-      err.message.should.eql('variable is not defined');
+      var renderdJSON = JSON.parse(render);
+      renderdJSON.variable.should.equals("value");
       done();
     });
   });
@@ -68,7 +68,7 @@ describe('Rendering a json file', function () {
       ejr('./test_files/interdependency/pie/list.json', { pies: pies }, function (err, render) {
 
         var renderdJSON = JSON.parse(render);
-        
+
         renderdJSON.pies.length.should.eql(2);
         renderdJSON.pies[0].pie.flavor.should.eql('vanilla');
         renderdJSON.pies[0].pie.toppings[0].topping.flavor.should.eql('chocolate');
