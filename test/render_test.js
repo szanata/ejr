@@ -1,5 +1,6 @@
 var 
   should = require('chai').should(),
+  expect = require('chai').expect,
   ejr = require('../ejr');
 
 describe('Rendering a json file', function () {
@@ -32,11 +33,10 @@ describe('Rendering a json file', function () {
     });
   });
   
-  it('Should keep context on included subfile', function (done) {
+  it('Should not keep options on included subfile', function (done) {
     ejr('./test_files/test_include.json', { variable: "value" }, function (err, render) {
 
-      var renderdJSON = JSON.parse(render);
-      renderdJSON.variable.should.be.equals("value");
+      err.message.should.eql('variable is not defined');
       done();
     });
   });
@@ -46,17 +46,23 @@ describe('Rendering a json file', function () {
       var pies = [
         {
           flavor: 'vanilla',
-          topping: {
+          toppings: [{
             flavor: 'chocolate',
             amount: '2oz'
-          }
+          }, {
+            flavor: 'cherry',
+            amount: '1oz'
+          } ]
         },
         {
           flavor: 'cream',
-          topping: {
+          toppings: [{
             flavor: 'strawberry',
             amount: '2oz'
-          }
+          }, {
+            flavor: 'mango',
+            amount: '2oz'
+          }]
         }
       ]
       ejr('./test_files/interdependency/pie/list.json', { pies: pies }, function (err, render) {
@@ -65,10 +71,10 @@ describe('Rendering a json file', function () {
         
         renderdJSON.pies.length.should.eql(2);
         renderdJSON.pies[0].pie.flavor.should.eql('vanilla');
-        renderdJSON.pies[0].pie.topping.topping.flavor.should.eql('chocolate');
+        renderdJSON.pies[0].pie.toppings[0].topping.flavor.should.eql('chocolate');
         
         renderdJSON.pies[1].pie.flavor.should.eql('cream');
-        renderdJSON.pies[1].pie.topping.topping.flavor.should.eql('strawberry');
+        renderdJSON.pies[1].pie.toppings[0].topping.flavor.should.eql('strawberry');
         done();
       });
     });

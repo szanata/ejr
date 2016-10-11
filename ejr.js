@@ -1,9 +1,9 @@
 const fs = require('fs');
 const vm = require("vm");
 const path = require('path');
-const extend = require('util')._extend;
 
-var rootPath = null;
+
+var paths = [];
 /**
  * @param {string} file1 - some file path
  * @param {string} file2 - some other file path relative to first file's path
@@ -26,8 +26,7 @@ function bindInclude(ctx, filePath) {
   * @returns {Object} rendered partial json
   */
   ctx._include = function _include(file, options) {
-    var mergedOptions = extend(ctx, options);
-    return renderSync( getRelativePath( rootPath, file ), mergedOptions );
+    return renderSync( getRelativePath( filePath, file ), options );
   }
 }
 
@@ -48,7 +47,7 @@ function bindGlobal(ctx) {
 function renderSync(filePath, options) {
   var content = fs.readFileSync(filePath);
   var wrapped = `var render = ${content}`;
-  var ctx = options;
+  var ctx = options || { };
   
   bindGlobal(ctx);
   bindInclude(ctx, filePath);
@@ -66,7 +65,6 @@ function renderSync(filePath, options) {
  */
 module.exports = function render(filePath, options, callback) {
   try {
-    rootPath = filePath;
     var json = renderSync(filePath, options);
     callback( null, JSON.stringify(json) ); 
   } catch (e) {

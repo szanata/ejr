@@ -1,6 +1,6 @@
 {
   "pie": {
     "flavor": pie.flavor,
-    "topping": _include('../topping/index.json', { topping: pie.topping })
+    "toppings": _include('../topping/list.json', { toppings: pie.toppings }).toppings
   }
 }

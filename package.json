@@ -1,6 +1,6 @@
 {
   "name": "ejr",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Easy JSON Render",
   "main": "ejr.js",
   "dependencies": {},
