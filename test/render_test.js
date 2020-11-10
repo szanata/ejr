@@ -1,49 +1,42 @@
-var 
-  should = require('chai').should(),
-  expect = require('chai').expect,
-  ejr = require('../ejr');
+const should = require( 'chai' ).should();
+// const expect = require( 'chai' ).expect;
+const ejr = require( '../ejr' );
 
-describe('Rendering a json file', function () {
+describe( 'Rendering a json file', function () {
   
-  it('Should interpolated the context var in the file', function (done) {
-  
-    ejr('./test_files/car.json', { myCar: { color: "green" } }, function (err, render) {
-      var renderdJSON = JSON.parse(render);
-      renderdJSON.color.should.be.equals("green");
-      done();
-    });
-  });
-  
-  it('Should include subfile in the final rander', function (done) {
+  it( 'Should interpolated the context var in the file', async () => {
+    const result = await ejr( './test_files/car.json', { myCar: { color: "green" } } );
+    JSON.parse( result ).color.should.be.equals( 'green' );
+  } );
 
-    ejr('./test_files/car_with_engine.json', { myCar: { color: "green", engine: { cylinders: 6, displacement: 2, output: 288 } } }, function (err, render) {
-      var renderdJSON = JSON.parse(render);
-      renderdJSON.color.should.be.equals("green");
-      JSON.stringify(renderdJSON.engine).should.be.equals(JSON.stringify({ cylinders: 6, displacement: 2, output: 288 }));
-      done();
-    });
-  });
+  it( 'Should include subfile in the final rander', async () => {
+    const context = {
+      myCar: {
+        color: "green",
+        engine: {
+          cylinders: 6,
+          displacement: 2,
+          output: 288
+        }
+      }
+    };
+    const result = await ejr( './test_files/car_with_engine.json', context );
+    JSON.parse( result ).should.deep.equals( context.myCar );
+  } );
   
-  it('Should render file with require code', function (done) {
-
-    ejr('./test_files/test_require.json', { }, function (err, render) {
-      var renderdJSON = JSON.parse(render);
-      renderdJSON.path.should.be.equals("value");
-      done();
-    });
-  });
+  it( 'Should render file with require code', async () => {
+    const result = await ejr( './test_files/test_require.json', { } );
+    JSON.parse( result ).path.should.be.equals( 'value' );
+  } );
   
-  it('Should not keep options on included subfile', function (done) {
-    ejr('./test_files/test_include.json', { variable: "value" }, function (err, render) {
-      var renderdJSON = JSON.parse(render);
-      renderdJSON.variable.should.equals("value");
-      done();
-    });
-  });
+  it( 'Should not keep options on included subfile', async () => {
+    const result = await ejr( './test_files/test_include.json', { variable: "value" } );
+    JSON.parse( result ).variable.should.equals( 'value' );
+  } );
 
-  describe('Interdependency test', function (done) {
-    it('The root path (base file for reference) should always be relative to the location of the original view', function (done) {
-      var pies = [
+  describe( 'Interdependency test', async () => {
+    it( 'The root path (base file for reference) should always be relative to the location of the original view', async () => {
+      const pies = [
         {
           flavor: 'vanilla',
           toppings: [{
@@ -65,18 +58,15 @@ describe('Rendering a json file', function () {
           }]
         }
       ]
-      ejr('./test_files/interdependency/pie/list.json', { pies: pies }, function (err, render) {
+      const result = await ejr( './test_files/interdependency/pie/list.json', { pies } );
 
-        var renderdJSON = JSON.parse(render);
+      const renderdJSON = JSON.parse( result );
 
-        renderdJSON.pies.length.should.eql(2);
-        renderdJSON.pies[0].pie.flavor.should.eql('vanilla');
-        renderdJSON.pies[0].pie.toppings[0].topping.flavor.should.eql('chocolate');
-        
-        renderdJSON.pies[1].pie.flavor.should.eql('cream');
-        renderdJSON.pies[1].pie.toppings[0].topping.flavor.should.eql('strawberry');
-        done();
-      });
-    });
-  });
+      renderdJSON.pies.length.should.eql( 2 );
+      renderdJSON.pies[0].pie.flavor.should.eql( 'vanilla' );
+      renderdJSON.pies[0].pie.toppings[0].topping.flavor.should.eql( 'chocolate' );
+      renderdJSON.pies[1].pie.flavor.should.eql( 'cream' );
+      renderdJSON.pies[1].pie.toppings[0].topping.flavor.should.eql( 'strawberry' );
+    } );
+  } );
 });

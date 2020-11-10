@@ -1,34 +1,28 @@
 {
   "name": "ejr",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "Easy JSON Render",
   "main": "ejr.js",
   "dependencies": {},
-  "engines": {
-    "node": "6.3.1",
-    "npm": "3.10.6"
-  },
   "repository": {
     "type": "git",
-    "url": "git@github.com:madeinstefano/ejr.git"
+    "url": "https://github.com/szanata/ejr"
   },
   "keywords": [
     "view engine",
     "json",
     "express.js"
   ],
-  "contributors": [
-    {
-      "name": "Stéfano Zanata",
-      "email": "stefano.zanata@meltwater.com"
-    }
-  ],
+  "author": {
+    "name": "Stéfano Zanata",
+    "url": "https://github.com/szanata"
+  },
   "scripts": {
-    "test": "make test"
+    "test": "mocha"
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^3.0.2",
+    "mocha": "^8.2.1",
     "rootpath": "latest"
   }
 }

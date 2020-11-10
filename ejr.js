@@ -45,7 +45,6 @@ function bindInclude(ctx, filePath) {
 function bindGlobal(ctx) {
   ctx.require = require; // bind require
   ctx.console = console; // bind console
-  ctx.process = process; // bind process
 }
 
 /**
@@ -53,30 +52,39 @@ function bindGlobal(ctx) {
  * @param {Object} options - context variables to be interpolated on the render
  * @return {Object} rendered json
  */
-function renderSync(filePath, options = {}) {
-  var content = fs.readFileSync(filePath);
-  var wrapped = `var render = ${content}`;
-  var ctx = options;
+function renderSync( filePath, context = {} ) {
+  const content = fs.readFileSync( filePath );
+  const script = `var render = ${content}`;
+  const ctx = context;
 
-  bindGlobal(ctx);
-  bindInclude(ctx, filePath);
+  bindGlobal( ctx );
+  bindInclude( ctx, filePath );
   
-  vm.createContext(ctx);
-  vm.runInNewContext(wrapped, ctx, { displayErrors: true });
+  vm.createContext( ctx );
+  vm.runInNewContext( script, ctx, { displayErrors: true } );
   
   return ctx.render;
 }
 
 /**
  * @param {string} filePath - absolute path of the view
- * @param {Object} options - context variables to be interpolated on the render
+ * @param {Object} context - context variables to be interpolated on the render
  * @param {function} callback - callback fn called with the any errors during render and the render result as string
  */
-module.exports = function render(filePath, options, callback) {
+module.exports = async ( filePath, context = {}, callback ) => {
   try {
-    var json = renderSync(filePath, options);
-    callback( null, JSON.stringify(json) ); 
-  } catch (e) {
-    callback( e, null );
+    const result = JSON.stringify( renderSync( filePath, context ) );
+    if ( typeof callback === 'function' ) {
+      callback( null, result );
+    } else {
+      return result;
+    }
+  } catch ( error ) {
+    console.log( { error } );
+    if ( typeof callback === 'function' ) {
+      callback( error, null );
+    } else {
+      throw error;
+    }
   }
 };
